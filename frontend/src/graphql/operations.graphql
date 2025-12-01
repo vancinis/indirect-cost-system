@@ -1,0 +1,109 @@
+# ==========================================
+# FRAGMENTS
+# ==========================================
+
+fragment IndirectCostFields on IndirectCost {
+  id
+  operationId
+  volumeRange
+  cost
+  createdAt
+  updatedAt
+}
+
+fragment OperationFields on Operation {
+  id
+  name
+  description
+  plantId
+  costs {
+    ...IndirectCostFields
+  }
+  createdAt
+  updatedAt
+}
+
+fragment PlantFields on Plant {
+  id
+  name
+  code
+  description
+  createdAt
+  updatedAt
+}
+
+fragment PlantWithOperations on Plant {
+  ...PlantFields
+  operations {
+    ...OperationFields
+  }
+}
+
+# ==========================================
+# QUERIES
+# ==========================================
+
+query GetPlants {
+  plants {
+    ...PlantFields
+  }
+}
+
+query GetPlant($id: ID!) {
+  plant(id: $id) {
+    ...PlantWithOperations
+  }
+}
+
+query GetOperationsByPlant($plantId: ID!) {
+  operationsByPlant(plantId: $plantId) {
+    ...OperationFields
+  }
+}
+
+query GetOperation($id: ID!) {
+  operation(id: $id) {
+    ...OperationFields
+  }
+}
+
+# ==========================================
+# MUTATIONS
+# ==========================================
+
+mutation CreatePlant($input: CreatePlantInput!) {
+  createPlant(createPlantInput: $input) {
+    ...PlantFields
+  }
+}
+
+mutation UpdatePlant($input: UpdatePlantInput!) {
+  updatePlant(updatePlantInput: $input) {
+    ...PlantFields
+  }
+}
+
+mutation RemovePlant($id: ID!) {
+  removePlant(id: $id) {
+    id
+  }
+}
+
+mutation CreateOperation($input: CreateOperationInput!) {
+  createOperation(createOperationInput: $input) {
+    ...OperationFields
+  }
+}
+
+mutation UpdateOperation($input: UpdateOperationInput!) {
+  updateOperation(updateOperationInput: $input) {
+    ...OperationFields
+  }
+}
+
+mutation RemoveOperation($id: ID!) {
+  removeOperation(id: $id) {
+    id
+  }
+}
+

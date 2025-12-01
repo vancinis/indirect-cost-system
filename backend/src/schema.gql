@@ -1,0 +1,98 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CostInput {
+  cost: Float!
+  volumeRange: VolumeRange!
+}
+
+input CreateOperationInput {
+  costs: [CostInput!]
+  description: String
+  name: String!
+  plantId: ID!
+}
+
+input CreatePlantInput {
+  code: String!
+  description: String
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type IndirectCost {
+  cost: String!
+  createdAt: DateTime!
+  id: ID!
+  operationId: String!
+  updatedAt: DateTime!
+  volumeRange: VolumeRange!
+}
+
+type Mutation {
+  createOperation(createOperationInput: CreateOperationInput!): Operation!
+  createPlant(createPlantInput: CreatePlantInput!): Plant!
+  removeOperation(id: ID!): Operation!
+  removePlant(id: ID!): Plant!
+  updateOperation(updateOperationInput: UpdateOperationInput!): Operation!
+  updatePlant(updatePlantInput: UpdatePlantInput!): Plant!
+}
+
+type Operation {
+  costs: [IndirectCost!]
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  plantId: String!
+  updatedAt: DateTime!
+}
+
+type Plant {
+  code: String!
+  createdAt: DateTime!
+  description: String
+  id: ID!
+  name: String!
+  operations: [Operation!]
+  updatedAt: DateTime!
+}
+
+type Query {
+  operation(id: ID!): Operation!
+  operations: [Operation!]!
+  operationsByPlant(plantId: ID!): [Operation!]!
+  plant(id: ID!): Plant!
+  plants: [Plant!]!
+}
+
+input UpdateOperationInput {
+  costs: [CostInput!]
+  description: String
+  id: ID!
+  name: String
+}
+
+input UpdatePlantInput {
+  code: String
+  description: String
+  id: ID!
+  name: String
+}
+
+"""Rangos de volumen para costos indirectos"""
+enum VolumeRange {
+  RANGE_1T
+  RANGE_3T
+  RANGE_5T
+  RANGE_10T
+  RANGE_20T
+  RANGE_30T
+  RANGE_300KG
+  RANGE_500KG
+}

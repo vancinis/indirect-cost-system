@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Plant {
+  id          String      @id @default(uuid())
+  name        String
+  code        String      @unique
+  description String?
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  operations  Operation[]
+
+  @@map("plants")
+}
+
+model Operation {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  plantId     String         @map("plant_id")
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  costs       IndirectCost[]
+  plant       Plant          @relation(fields: [plantId], references: [id], onDelete: Cascade)
+
+  @@unique([plantId, name])
+  @@index([plantId])
+  @@map("operations")
+}
+
+model IndirectCost {
+  id          String      @id @default(uuid())
+  operationId String      @map("operation_id")
+  volumeRange VolumeRange @map("volume_range")
+  cost        Decimal     @db.Decimal(10, 2)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  updatedAt   DateTime    @updatedAt @map("updated_at")
+  operation   Operation   @relation(fields: [operationId], references: [id], onDelete: Cascade)
+
+  @@unique([operationId, volumeRange])
+  @@index([operationId])
+  @@map("indirect_costs")
+}
+
+enum VolumeRange {
+  RANGE_300KG
+  RANGE_500KG
+  RANGE_1T
+  RANGE_3T
+  RANGE_5T
+  RANGE_10T
+  RANGE_20T
+  RANGE_30T
+}

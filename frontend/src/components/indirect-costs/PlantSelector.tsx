@@ -1,4 +1,4 @@
-import { Select } from '../ui';
+import { Select } from "../ui";
 
 interface PlantForSelector {
   id: string;
@@ -33,7 +33,7 @@ export const PlantSelector = ({
       <div className="w-72">
         <Select
           options={options}
-          value={selectedPlantId ?? ''}
+          value={selectedPlantId ?? ""}
           onChange={(e) => onSelect(e.target.value)}
           placeholder="Seleccionar planta..."
           disabled={disabled}

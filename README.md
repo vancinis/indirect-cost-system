@@ -2,6 +2,12 @@
 
 Sistema de configuración de cotización para costos indirectos por planta. Permite definir operaciones y sus costos según rangos de volumen por planta.
 
+## 🚀 Demo en Vivo
+
+[![Demo](https://img.shields.io/badge/🌐_Ver_Demo-Live-success?style=for-the-badge&logo=vercel&logoColor=white)](https://indirect-cost-system.vercel.app/)
+
+> **Nota:** La aplicación está desplegada en Vercel. Haz clic en el badge para acceder a la demo en vivo.
+
 ## Estructura del Proyecto
 
 ```
